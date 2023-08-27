@@ -8,7 +8,9 @@ $(document).ready(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  //
+
+  $(".saveBtn").on("click", onSaveButtonClick);
+
   //
   //
   // Apply the past, present, or future class to each time
@@ -26,6 +28,7 @@ $(document).ready(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  retrieveLocalStorage();
 
   // Extend dayjs with the advancedFormat plugin
   dayjs.extend(window.dayjs_plugin_advancedFormat);
@@ -43,5 +46,28 @@ function checkHour(hour) {
     return 0;
   } else {
     return 1;
+  }
+}
+
+function onSaveButtonClick(event) {
+  var target = $(event.target);
+  var text = "";
+  var hour = "";
+  if (target.hasClass("saveBtn")) {
+    hour = target.parent().attr("id");
+    text = target.prev().val();
+  } else {
+    // handle clicking the icon
+    hour = target.parent().parent().attr("id");
+    text = target.parent().prev().val();
+  }
+
+  localStorage.setItem(hour, text);
+}
+
+function retrieveLocalStorage() {
+  for (var i = 9; i <= 17; i++) {
+    var text = localStorage.getItem("hour-" + i);
+    $("#hour-" + i + " textarea").val(text);
   }
 }
