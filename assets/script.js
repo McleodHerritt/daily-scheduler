@@ -2,17 +2,9 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(document).ready(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-
+  //listener for click events on the save button.
   $(".saveBtn").on("click", onSaveButtonClick);
 
-  //
-  //
   // Apply the past, present, or future class to each time
   // block by comparing the id to the current hour.
   for (var hour = 9; hour <= 17; hour++) {
@@ -24,10 +16,8 @@ $(document).ready(function () {
       $("#hour-" + hour).addClass("future");
     }
   }
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
+
+  //get any user input that was saved in localStorage.
   retrieveLocalStorage();
 
   // Extend dayjs with the advancedFormat plugin
@@ -49,6 +39,8 @@ function checkHour(hour) {
   }
 }
 
+// Handles the click event on the save button.
+// Saves the user's input for the corresponding hour to localStorage.
 function onSaveButtonClick(event) {
   var target = $(event.target);
   var text = "";
@@ -57,7 +49,7 @@ function onSaveButtonClick(event) {
     hour = target.parent().attr("id");
     text = target.prev().val();
   } else {
-    // handle clicking the icon
+    //     // Handle the case where the user clicks on the save icon instead of the button itself.
     hour = target.parent().parent().attr("id");
     text = target.parent().prev().val();
   }
@@ -65,6 +57,7 @@ function onSaveButtonClick(event) {
   localStorage.setItem(hour, text);
 }
 
+//Retrieves the user's input for each hour from localStorage and displays it in the corresponding textarea.
 function retrieveLocalStorage() {
   for (var i = 9; i <= 17; i++) {
     var text = localStorage.getItem("hour-" + i);
